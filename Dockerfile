@@ -106,4 +106,17 @@ WORKDIR /work/ffmpeg
 RUN ./configure --prefix=/opt/qsv --enable-libmfx
 RUN make -j$(nprocs) && make -j$(nprocs) install
 
+###################################
+## Second Stage (execution image)
+###################################
+FROM ubuntu:20.04 as qsv_encoder
+COPY --from=qsv_builder /opt /opt
 
+ENV PATH=/opt/qsv/bin:${PATH}
+ENV LD_LIBRARY_PATH=/opt/qsv/lib:/opt/qsv/lib/x86_64-linux-gnu/:/opt/intel/mediasdk/lib
+RUN apt-get update && \
+    apt-get -y install libx11-6 libxcb1 libpciaccess0 libass9 \
+                       libwayland-client0 libwayland-cursor0 \
+                       libxext6 libxfixes3 libxcb-xfixes0 libxcb-shape0 \
+                       libxv1 && \
+    rm -fr /var/lib/apt/lists/*
