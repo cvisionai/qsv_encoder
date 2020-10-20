@@ -120,3 +120,5 @@ RUN apt-get update && \
                        libxext6 libxfixes3 libxcb-xfixes0 libxcb-shape0 \
                        libxv1 && \
     rm -fr /var/lib/apt/lists/*
+
+COPY files/test.sh /test/test.sh
