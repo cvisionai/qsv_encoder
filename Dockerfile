@@ -103,7 +103,7 @@ RUN apt-get update && \
 WORKDIR /work
 RUN git clone https://github.com/FFmpeg/FFmpeg -b master ffmpeg
 WORKDIR /work/ffmpeg
-RUN ./configure --prefix=/opt/qsv --enable-libmfx
+RUN ./configure --prefix=/opt/qsv --enable-libmfx --enable-libfreetype
 RUN make -j$(nprocs) && make -j$(nprocs) install
 
 ###################################
